@@ -24,6 +24,7 @@ let monthly_common_fees = 0
 
 let months_of_security_deposit = 3
 let renters_insurance_rate = 0
+let capital_gains_tax_rate = 0.2
 
 let single_or_married = 'single' // not used
 
@@ -80,16 +81,16 @@ let get_total_initial_cost_for_buyer = (percent_downpayment, closing_cost_rate, 
 	let total_opportunity_cost = calculate_opportunity_cost_with_start_year(0, total_initial_cost, investment_return_rate, years_at_home) 
 	return {
 		'total_initial_cost': total_initial_cost,
-		'total_opportunity_cost': (total_opportunity_cost - total_initial_cost) * (1 - marginal_tax_rate)
+		'total_opportunity_cost': (total_opportunity_cost - total_initial_cost) * (1 - capital_gains_tax_rate)
 	}
 }
 
 let get_total_initial_cost_for_renter = (monthly_rent) => {
-	let total_initial_cost = monthly_rent;
+	let total_initial_cost = monthly_rent * months_of_security_deposit;
 	let total_opportunity_cost = calculate_opportunity_cost_with_start_year(0, total_initial_cost, investment_return_rate, years_at_home) 
 	return {
 		'total_initial_cost': total_initial_cost,
-		'total_opportunity_cost': (total_opportunity_cost - total_initial_cost) * (1 - marginal_tax_rate)
+		'total_opportunity_cost': (total_opportunity_cost - total_initial_cost) * (1 - capital_gains_tax_rate)
 	}
 }
 
@@ -99,7 +100,7 @@ let get_total_recurring_costs_for_buyer = (years) => {
 	let monthly_mortgage_payment = calculate_monthly_mortgage_payment(percent_downpayment, length_years_of_mortgage, percent_downpayment, price_of_home);
 	let yearly_mortgage_payment = monthly_mortgage_payment * 12;
 
-	for (year = 0; year < years; year++) {
+	for (let year = 0; year < years; year++) {
 		let tax_before_deductible = get_yearly_fees_based_on_rate(year, property_tax_rate, home_growth_rate, price_of_home);
 		let tax_deductible = calculate_total_deductible_from_fee(tax_before_deductible, marginal_tax_rate);
 		let tax_after_deductible = tax_before_deductible - tax_deductible;
@@ -136,13 +137,13 @@ let get_total_recurring_costs_for_buyer = (years) => {
 		'total_homeowners_insurance': total_homeowners_insurance,
 		'total_utilities': total_utilities,
 		'total_recurring_cost': total_recurring_cost,
-		'total_opportunity_cost': (total_opportunity_cost - total_recurring_cost) * (.8)
+		'total_opportunity_cost': (total_opportunity_cost - total_recurring_cost) * (1 - capital_gains_tax_rate)
 	}
 }
 
 let get_total_recurring_costs_for_renter = (years, monthly_rent) => {
 	let total_recurring_cost = total_opportunity_cost = 0;
-	for (year = 0; year < years; year++) {
+	for (let year = 0; year < years; year++) {
 		let yearly_rent = calculate_compound_value(monthly_rent * 12, rent_growth_rate, year);
 
 		let yearly_recurring_cost = yearly_rent + (yearly_rent * renters_insurance_rate);
@@ -153,7 +154,7 @@ let get_total_recurring_costs_for_renter = (years, monthly_rent) => {
 	}
 	return {
 		'total_recurring_cost': total_recurring_cost,
-		'total_opportunity_cost': (total_opportunity_cost - total_recurring_cost) * (.8)
+		'total_opportunity_cost': (total_opportunity_cost - total_recurring_cost) * (1 - capital_gains_tax_rate)
 	}
 }
 
@@ -201,17 +202,14 @@ let calculate_total_deductible_from_fee = (fee, marginal_tax_rate) => {
 let calculate_total_remaining_principal_amount_at_year = (years_at_home) => {
 	let remaining_mortgage_principal = (price_of_home ) - (price_of_home * percent_downpayment);
 	let monthly_mortgage_payment = calculate_monthly_mortgage_payment(percent_downpayment, length_years_of_mortgage, percent_downpayment, price_of_home);
-	console.log('monthly_mortgage_payment: ', monthly_mortgage_payment);
 	let yearly_mortgage_payment = monthly_mortgage_payment * 12;
-	for (year = 0; year < years_at_home; year++) {
-		let mortgage_payment_after_deductible = 0
+	for (let year = 0; year < years_at_home; year++) {
 		if (year < length_years_of_mortgage) {
 			let mortgage_interest_to_pay = remaining_mortgage_principal * mortgage_rate;
 			let mortgage_principal_to_pay = yearly_mortgage_payment - mortgage_interest_to_pay;
 			remaining_mortgage_principal = remaining_mortgage_principal - mortgage_principal_to_pay;
 		}
 	}
-	console.log('calculate_total_remaining_principal_amount_at_year: ', remaining_mortgage_principal)
 	return remaining_mortgage_principal
 }
 
@@ -221,10 +219,7 @@ let calculate_net_proceeds_for_buyer = () => {
 	if (years_at_home < length_years_of_mortgage) {
 		principal_left = calculate_total_remaining_principal_amount_at_year(years_at_home)
 	}
-	// console.log('principal_amount_paid: ', principal_amount_paid)
-	console.log('principal_left: ', principal_left)
 	let home_sell_value = calculate_compound_value(price_of_home, home_growth_rate, years_at_home);
-	// console.log('home_sell_value: ', home_sell_value)
 	let home_sell_fee = home_sell_value * closing_cost_rate_of_selling_home;
 	return home_sell_value - home_sell_fee - principal_left;
 }
@@ -250,6 +245,7 @@ console.log('###############################');
 console.log('Monthly rental should be: ', result.monthly_rent);
 
 
+console.log('  Initial costs: ', result.buyer_initial_cost_data);
 
 
 
