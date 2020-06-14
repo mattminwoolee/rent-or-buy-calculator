@@ -1,4 +1,10 @@
 :local .appContainer {
+  display: flex;
+  justify-content: center;
+}
+
+:local .outerContainer {
   margin: 3em;
   padding: 2em;
+  width: 100vmin;
 }

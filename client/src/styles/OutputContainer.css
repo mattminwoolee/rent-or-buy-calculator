@@ -1,5 +1,28 @@
 :local .outputContainer {
+  margin: 1em 5em;
+  padding: 1em 0;
+  width: 30%;
+  text-align: center;
+}
+
+:local .flexContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:local .grid {
+  text-align: right;
   margin: 1em;
   padding: 1em;
-  width: 30%;
+}
+
+:local .displayOutput {
+  border: .05em;
+  border-style: solid orange;
+  border-radius: 15px;
+  box-shadow: 5px 5px;
+  width: 50%;
+  background-color: orange;
+  padding: 1em;
 }

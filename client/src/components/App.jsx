@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './../styles/App.css';
+import Header from './Header.jsx';
 import Main from './Main.jsx';
 
 class App extends React.Component {
@@ -272,12 +273,14 @@ class App extends React.Component {
   render() {
     return (
       <div className={ styles.appContainer } >
-        {/* <Header /> */}
-        <Main 
-        handleInputChange={ this.handleInputChange.bind(this) } 
-        input_data={ this.state.input_data }
-        output_data={ this.state.output_data }
-        />
+        <div className={ styles.outerContainer }>
+          <Header />
+          <Main 
+          handleInputChange={ this.handleInputChange.bind(this) } 
+          input_data={ this.state.input_data }
+          output_data={ this.state.output_data }
+          />
+        </div>
       </div>
     );
   }

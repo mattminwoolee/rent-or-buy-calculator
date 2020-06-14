@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import Slider from '@material-ui/core/Slider';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import styles from './../styles/InputController.css';
 
 var InputController = ( props ) => { 
+  let formatHeaderText = (input_type) => {
+    // Replace '_' with space and capitalize first letter
+    let capitalized_input_type = input_type.charAt(0).toUpperCase() + input_type.slice(1)
+    return capitalized_input_type.replace(/_/g, ' ')
+  }
+
   return(
-    <div>
-      <h4>{props.input_type.replace(/_/g, ' ')}</h4>
+    <div className={ styles.inputController }>
+      <h3>{formatHeaderText(props.input_type)}</h3>
       {props.value}
       <DefaultSlider
         value={props.value}
@@ -27,18 +34,18 @@ var DefaultSlider = withStyles({
     width: 24,
     backgroundColor: '#fff',
     border: '2px solid currentColor',
-    marginTop: -8,
-    marginLeft: -12,
+    marginTop: -11,
+    marginLeft: 0,
     '&:focus, &:hover, &$active': {
       boxShadow: 'inherit',
     },
   },
   track: {
-    height: 8,
+    height: 2,
     borderRadius: 4,
   },
   rail: {
-    height: 8,
+    height: 2,
     borderRadius: 4,
   }
 })(Slider);
