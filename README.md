@@ -1,4 +1,4 @@
-# rent-or-buy-calculator
+# Rent or Buy Calculator
 Tool to display long term costs of rent vs buy
 
 # Google sheet
