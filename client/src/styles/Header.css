@@ -1,4 +1,9 @@
 :local header {
-  margin: 2em 0;
+  margin: 1em auto 2em;
   font-size: 2em;
+  text-align: center;
+}
+
+:local img {
+  width: 50%;
 }

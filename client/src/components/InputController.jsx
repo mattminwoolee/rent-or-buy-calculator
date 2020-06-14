@@ -57,6 +57,7 @@ class InputController extends React.Component {
 
 var DefaultSlider = withStyles({
   root: {
+    color:'#0C57C9'
   },
   thumb: {
     height: 24,
