@@ -9,6 +9,7 @@ class InputController extends React.Component {
     this.state = {
       error: false
     }
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   
   formatHeaderText(input_type) {
@@ -18,6 +19,7 @@ class InputController extends React.Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault();
     let value = e.target.value
     if (this.props.min < value && value < this.props.max ) {
       this.props.handleInputChange(e, value, this.props.input_type)
@@ -33,7 +35,7 @@ class InputController extends React.Component {
 
   render() {
     return(
-      <form className={ styles.inputController } onChange={this.handleSubmit.bind(this)}>
+      <form className={ styles.inputController } onSubmit={this.handleSubmit} onChange={this.handleSubmit}>
         <h3>{this.formatHeaderText(this.props.input_type)}</h3>
         <div className={ styles.flexContainer }>
           <input 
