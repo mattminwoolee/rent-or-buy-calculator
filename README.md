@@ -33,6 +33,12 @@ The calculator will evaluate that if one can rent a similar home that is less or
 5. Plug calculations from step 3 into React app
 6. Deploy and enjoy (:
 
+## Technologies
+
+1. React JS
+2. Node express server
+3. Heroku
+
 ## References
 
 * https://www.nytimes.com/2014/05/22/upshot/rent-or-buy-the-math-is-changing.html
