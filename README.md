@@ -1,6 +1,8 @@
 # Rent or Buy Calculator
 A financial tool that evaluates whether it is better to rent or buy a home when taking the following into account: home price, mortgage rate, length of mortgage, downpayment, investment opportunity costs, maintenance costs, closing costs, etc.
 
+Link to app can be found here: https://rent-or-buy.herokuapp.com/
+
 * Inspired by NY Times Upshot (https://www.nytimes.com/interactive/2014/upshot/buy-rent-calculator.html)
 
 ## Methodology
